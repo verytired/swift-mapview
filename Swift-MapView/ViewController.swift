@@ -59,9 +59,10 @@ class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelega
         // 縮尺.
         let myLatDist : CLLocationDistance = 100
         let myLonDist : CLLocationDistance = 100
-        
+
         // Regionを作成.
-        let myRegion: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation, myLatDist, myLonDist)
+        var myRegion: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation, myLatDist, myLonDist)
+        myRegion.center = myLocation
         
         // MapViewに反映.
         // 表示タイプを航空写真と地図のハイブリッドに設定
@@ -69,6 +70,16 @@ class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelega
         //        mapView.mapType = MKMapType.Satellite
         //        mapView.mapType = MKMapType.Hybrid
         mapView.setRegion(myRegion, animated: false)
+        
+        //ピンを生成
+        var myAnnotation = MKPointAnnotation()
+        myAnnotation.coordinate  = manager.location.coordinate
+        //ピンのタイトルの設定
+        myAnnotation.title       = "current"
+        //ピンのサブタイトルを設定
+        myAnnotation.subtitle    = "your position"
+        //ピンを地図上に追加
+        mapView.addAnnotation(myAnnotation)
     }
     
     // Regionが変更した時に呼び出されるメソッド.
